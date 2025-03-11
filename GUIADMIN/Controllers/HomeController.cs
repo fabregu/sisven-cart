@@ -20,6 +20,7 @@ namespace GUIADMIN.Controllers
         
         }
 
+        [HttpGet]
         public JsonResult ListarUsuarios()
         {
             List<Usuario> oLista = new List<Usuario>();
