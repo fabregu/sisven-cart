@@ -31,8 +31,4 @@
 *.db
 .vs/
 Publish/
-.vs/SISVENCART/CopilotIndices/17.13.430.18484/CodeChunks.db-shm
-        .vs/SISVENCART/CopilotIndices/17.13.430.18484/CodeChunks.db-wal
-        .vs/SISVENCART/CopilotIndices/17.13.430.18484/SemanticSymbols.db-shm
-        .vs/SISVENCART/CopilotIndices/17.13.430.18484/SemanticSymbols.db-wal
-        .vs/SISVENCART/FileContentIndex/803ee24e-07c2-48c1-a79e-16153edfe74a.vsidx
+.vs/

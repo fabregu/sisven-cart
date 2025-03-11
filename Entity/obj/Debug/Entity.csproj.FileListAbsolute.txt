@@ -1,6 +1,0 @@
-C:\Users\magaly\Documents\Visual Studio 2022\SISVENCART\Entity\bin\Debug\Entity.dll
-C:\Users\magaly\Documents\Visual Studio 2022\SISVENCART\Entity\bin\Debug\Entity.pdb
-C:\Users\magaly\Documents\Visual Studio 2022\SISVENCART\Entity\obj\Debug\Entity.csproj.AssemblyReference.cache
-C:\Users\magaly\Documents\Visual Studio 2022\SISVENCART\Entity\obj\Debug\Entity.csproj.CoreCompileInputs.cache
-C:\Users\magaly\Documents\Visual Studio 2022\SISVENCART\Entity\obj\Debug\Entity.dll
-C:\Users\magaly\Documents\Visual Studio 2022\SISVENCART\Entity\obj\Debug\Entity.pdb

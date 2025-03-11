@@ -1,9 +1,0 @@
-C:\Users\magaly\Documents\Visual Studio 2022\SISVENCART\DAL\bin\Debug\DAL.dll
-C:\Users\magaly\Documents\Visual Studio 2022\SISVENCART\DAL\bin\Debug\DAL.pdb
-C:\Users\magaly\Documents\Visual Studio 2022\SISVENCART\DAL\bin\Debug\Entity.dll
-C:\Users\magaly\Documents\Visual Studio 2022\SISVENCART\DAL\bin\Debug\Entity.pdb
-C:\Users\magaly\Documents\Visual Studio 2022\SISVENCART\DAL\obj\Debug\DAL.csproj.AssemblyReference.cache
-C:\Users\magaly\Documents\Visual Studio 2022\SISVENCART\DAL\obj\Debug\DAL.csproj.CoreCompileInputs.cache
-C:\Users\magaly\Documents\Visual Studio 2022\SISVENCART\DAL\obj\Debug\DAL.csproj.Up2Date
-C:\Users\magaly\Documents\Visual Studio 2022\SISVENCART\DAL\obj\Debug\DAL.dll
-C:\Users\magaly\Documents\Visual Studio 2022\SISVENCART\DAL\obj\Debug\DAL.pdb
