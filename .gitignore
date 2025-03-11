@@ -1,0 +1,38 @@
+*.suo
+*.backup
+*.user
+*.dbmdl
+*.pptx
+*.psess
+*.orig
+*.xml
+*.~vsd
+*.zip
+*.sublime-project
+*.sublime-workspace
+*.exe
+*.avi
+*.mp4
+*.mov
+*.rar
+*.mdf
+*.ldf
+**/nuspec.list
+**/packages/
+**/.sass-cache/
+**/node_modules/
+**/bower_components/
+*/Performance/*TestResults.txt
+**/bin
+**/obj
+**/*.log.1
+**/*.log.*
+*.log
+*.db
+.vs/
+Publish/
+.vs/SISVENCART/CopilotIndices/17.13.430.18484/CodeChunks.db-shm
+        .vs/SISVENCART/CopilotIndices/17.13.430.18484/CodeChunks.db-wal
+        .vs/SISVENCART/CopilotIndices/17.13.430.18484/SemanticSymbols.db-shm
+        .vs/SISVENCART/CopilotIndices/17.13.430.18484/SemanticSymbols.db-wal
+        .vs/SISVENCART/FileContentIndex/803ee24e-07c2-48c1-a79e-16153edfe74a.vsidx
