@@ -13,6 +13,8 @@ namespace GUIADMIN
 
             bundles.Add(new Bundle("~/bundles/complements").Include(
                         "~/Scripts/fontawesome/all.min.js",
+                        "~/Scripts/DataTables/jquery.dataTables.js",
+                        "~/Scripts/DataTables/dataTables.responsive.js",
                         "~/Scripts/scripts.js"));
             //bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
             //            "~/Scripts/jquery.validate*"));
@@ -23,9 +25,15 @@ namespace GUIADMIN
             //            "~/Scripts/modernizr-*"));
 
             bundles.Add(new Bundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.bundel.js"));
+                      "~/Scripts/bootstrap.bundel.min.js",
+                      "~/Scripts/bootstrap.js"
+                      ));
 
-            bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/site.css"));
+            bundles.Add(new StyleBundle("~/Content/css").Include(
+                "~/Content/site.css",
+                "~/Content/Datatables/css/jquery.dataTables.css",
+                "~/Content/Datatables/css/responsive.dataTables.css"
+                ));
         }
     }
 }

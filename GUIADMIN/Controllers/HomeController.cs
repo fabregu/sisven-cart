@@ -25,8 +25,7 @@ namespace GUIADMIN.Controllers
         {
             List<Usuario> oLista = new List<Usuario>();
             oLista = new BOL_Usuarios().Listar();
-
-            return Json(oLista, JsonRequestBehavior.AllowGet);
+            return Json(new{ data = oLista }, JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -16,7 +16,7 @@
     <div class="card-body">
         <div class="row">
             <div class="col-12">
-                <button type="button" class="btn btn-success">Crear Nuevo</button>
+                <button type="button" class="btn btn-success" onClick="openModal()">Crear Nuevo</button>
             </div>
         </div>
         <h5 class="card-title"></h5>
@@ -32,27 +32,115 @@
                     <th>Apellido</th>
                     <th>Correo</th>
                     <th>Activo</th>
+                    <th>Acciones</th>
+
                 </tr>
             </thead>
             <tbody>
-
             </tbody>
         </table>
     </div>
+
+<!-- Start modal -->
+
+<div class="modal fade" id="AddUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body g-2">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label for="txtNombres" class="form-label">Nombres</label>
+                        <input type="text" class="form-control" id="txtNombres" placeholder="Escriba el nombre">
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="txtApellidos" class="form-label">Apellidos</label>
+                        <input type="text" class="form-control" id="txtApellidos" placeholder="Escriba los apellidos">
+                    </div>
+                    <div class="col-sm-6">
+                            <label for="txtCorreo" class="form-label">Correo</label>
+                            <input type="email" class="form-control" id="txtCorreo" placeholder="name@example.com">
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="cboActivo" class="form-label">Activo</label>
+                        <select id="cboActivo" class="form-select">
+                            <option value="1">Si</option>
+                            <option value="0">No</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary">Guardar</button>
+            </div>
+        </div>
+    </div>
 </div>
+
+<!-- End modal -->
+
 
 @section scripts {
     <script>
-    jQuery.ajax({
+        var tblData;
+
+    @*jQuery.ajax({  Mostrar en consola la data cargada
         url: '@Url.Action("ListarUsuarios", "Home")',
         type: "GET",
         dataType: "json",
         contentType: "aplication/json; charset= utf-8",
         success: function (data) {
-            debugger;
-            var texto = "Hola";
+            /*debugger;*/
             console.log(data);
         }
-    });
+    });*@
+
+        tblData = $("#tblUsers").DataTable({
+            responsive: true,
+            ordering: false,
+            "ajax": {
+                url: '@Url.Action("ListarUsuarios", "Home")',
+                type: "GET",
+                dataType: "json"
+            },
+            columns: [
+                { "data": "Nombres" },
+                { "data": "Apellidos" },
+                { "data": "Correo" },
+                {
+                    "data": "Activo", "render": function (valor) {
+                        if (valor) {
+                            return '<span class="badge bg-success">Si</span>'
+                        } else {
+                            return '<span class="badge bg-danger">No</span>'
+                        }
+                    }
+                },
+                {
+                    "defaulContent": '<button type="button" class="btn btn-primary btn-sm"> <i class="fas fa-pen"></i></button>' +
+                        '<button type="button" class="btn btn-danger btn-sm ms-2"> <i class="fas fa-trash"></i></button>',
+                    "orderable": false,
+                    "searchable": false,
+                    "width": "90px"
+                }
+            ],
+            "language": {
+                "url": "https://cdn.datatables.net/plug-ins/2.2.2/i18n/es-ES.json"
+            }
+        }); 
+        
+        function openModal() {
+            $('#AddUserModal').modal('show');
+        }
+
+        //function openModal()  tambein funciona
+        //    var modal = new bootstrap.Modal(document.getElementById('AddUserModal'));
+        //    modal.show();
+        //}
+
     </script>
 }
