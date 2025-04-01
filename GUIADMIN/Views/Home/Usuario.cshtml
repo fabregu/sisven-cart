@@ -16,12 +16,11 @@
     <div class="card-body">
         <div class="row">
             <div class="col-12">
-                <button type="button" class="btn btn-success" onClick="openModal()">Crear Nuevo</button>
+                <button type="button" class="btn btn-success" onclick="openModal()">Crear Nuevo</button>
             </div>
         </div>
         <h5 class="card-title"></h5>
         <p class="card-text"></p>
-        <a class="btn btn-primary"></a>
 
         <hr />
 
@@ -33,7 +32,6 @@
                     <th>Correo</th>
                     <th>Activo</th>
                     <th>Acciones</th>
-
                 </tr>
             </thead>
             <tbody>
@@ -41,63 +39,74 @@
         </table>
     </div>
 
-<!-- Start modal -->
+    <!-- Start modal data-bs-backdrop="static" evita que se cierre al hacer click en otro lugar fuera del modal-->
 
-<div class="modal fade" id="AddUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header bg-dark text-white">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body g-2">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <label for="txtNombres" class="form-label">Nombres</label>
-                        <input type="text" class="form-control" id="txtNombres" placeholder="Escriba el nombre">
-                    </div>
-                    <div class="col-sm-6">
-                        <label for="txtApellidos" class="form-label">Apellidos</label>
-                        <input type="text" class="form-control" id="txtApellidos" placeholder="Escriba los apellidos">
-                    </div>
-                    <div class="col-sm-6">
+    <div class="modal fade" id="AddUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-dark text-white">
+                    <h5 class="modal-title" id="exampleModalLabel">Usuario</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input id="txtId" type="text" value="0"/>
+                    <div class="row g-2">
+                        <div class="col-sm-6">
+                            <label for="txtNombres" class="form-label">Nombres</label>
+                            <input type="text" class="form-control" id="txtNombres" placeholder="Escriba el nombre">
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="txtApellidos" class="form-label">Apellidos</label>
+                            <input type="text" class="form-control" id="txtApellidos" placeholder="Escriba los apellidos">
+                        </div>
+                        <div class="col-sm-6">
                             <label for="txtCorreo" class="form-label">Correo</label>
                             <input type="email" class="form-control" id="txtCorreo" placeholder="name@example.com">
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="cboActivo" class="form-label">Activo</label>
+                            <select id="cboActivo" class="form-select">
+                                <option value="1">Si</option>
+                                <option value="0">No</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="col-sm-6">
-                        <label for="cboActivo" class="form-label">Activo</label>
-                        <select id="cboActivo" class="form-select">
-                            <option value="1">Si</option>
-                            <option value="0">No</option>
-                        </select>
+
+                    <div class="row mt-2">
+                        <div class="col-12">
+                            <div id="mensajeError" class="alert alert-danger" role="alert">
+                                A simple danger alert—check it out!
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary">Guardar</button>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" onclick="Guardar()">Guardar</button>
+                </div>
             </div>
         </div>
     </div>
 </div>
+    <!-- End modal -->
 
-<!-- End modal -->
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.8/dist/sweetalert2.min.js"></script>
 
 @section scripts {
     <script>
         var tblData;
+        var selectedRow;
 
-    @*jQuery.ajax({  Mostrar en consola la data cargada
-        url: '@Url.Action("ListarUsuarios", "Home")',
-        type: "GET",
-        dataType: "json",
-        contentType: "aplication/json; charset= utf-8",
-        success: function (data) {
-            /*debugger;*/
-            console.log(data);
-        }
-    });*@
+        @*jQuery.ajax({  Mostrar en consola la data cargada
+            url: '@Url.Action("ListarUsuarios", "Home")',
+            type: "GET",
+            dataType: "json",
+            contentType: "aplication/json; charset= utf-8",
+            success: function (data) {
+                /*debugger;*/
+                console.log(data);
+            }
+        ;*@
 
         tblData = $("#tblUsers").DataTable({
             responsive: true,
@@ -121,8 +130,8 @@
                     }
                 },
                 {
-                    "defaulContent": '<button type="button" class="btn btn-primary btn-sm"> <i class="fas fa-pen"></i></button>' +
-                        '<button type="button" class="btn btn-danger btn-sm ms-2"> <i class="fas fa-trash"></i></button>',
+                    "defaultContent": '<button type="button" class="btn btn-primary btn-sm btn-editar"><i class="fas fa-pen"></i></button>' +
+                                      '<button type="button" class="btn btn-danger btn-sm ms-2 btn-eliminar"><i class="fas fa-trash"></i></button>',
                     "orderable": false,
                     "searchable": false,
                     "width": "90px"
@@ -131,16 +140,142 @@
             "language": {
                 "url": "https://cdn.datatables.net/plug-ins/2.2.2/i18n/es-ES.json"
             }
-        }); 
-        
-        function openModal() {
-            $('#AddUserModal').modal('show');
+        });
+
+        function openModal(json) {
+
+        $("#txtId").val(0);
+        $("#txtNombres").val("");
+        $("#txtApellidos").val("");
+        $("#txtCorreo").val("");
+        $("#cboActivo").val( 1 );
+        $("#mensajeError").hide();
+
+        if (json != null) {
+            $("#txtId").val(json.IdUsuario);
+            $("#txtNombres").val(json.Nombres);
+            $("#txtApellidos").val(json.Apellidos);
+            $("#txtCorreo").val(json.Correo);
+            $("#cboActivo").val(json.cboActivo == true? 1 : 0 );
         }
 
-        //function openModal()  tambein funciona
-        //    var modal = new bootstrap.Modal(document.getElementById('AddUserModal'));
-        //    modal.show();
-        //}
+        $('#AddUserModal').modal('show');
+    }
+
+    //function openModal()  tambein funciona
+    //    var modal = new bootstrap.Modal(document.getElementById('AddUserModal'));
+    //    modal.show();
+    //}
+
+     $("#tblUsers tbody").on("click", '.btn-editar', function () {
+        selectedRow = $(this).closest("tr");
+        var data = tblData.row(selectedRow).data();
+
+        openModal(data);
+     });
+
+    $("#tblUsers tbody").on("click", '.btn-eliminar', function () {
+        selectedUser = $(this).closest("tr");
+        var data = tblData.row(selectedUser).data();
+        console.log(data);
+
+        Swal.fire({
+            title: "ELIMINAR",
+            text: "Està seguro de eliminar?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Si, eliminar!",
+            focusConfirm: false,
+            //closeOnConfirm: false
+        }),
+        function () {
+            if (isConfirm) {
+                jQuery.ajax({
+                    url: '@Url.Action("EliminarUsuario", "Home")',
+                    type: "POST",
+                    data: JSON.stringify({ id: data.IdUsuario }),
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        if (data.resultado) {
+                            tblData.row(selectedUser).remove().draw();
+                        } else {
+                            Swal.fire("No se pudo eliminar", data.mensaje, "error");
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                })
+            }
+        }
+    });
+
+    function Guardar() {
+        var user = {
+            IdUsuario: $('#txId').val(),
+            Nombres: $("#txtNombres").val(),
+            Apellidos: $('#txtApellidos').val(),
+            Correo: $('#txtCorreo').val(),
+            Activo: $('#cboActivo').val() == 1 ? true : false
+        }
+
+       jQuery.ajax({ /* Mostrar en consola la funcoin guardar*/
+            url: '@Url.Action("GuardarUsuario", "Home")',
+            type: "POST",
+            data: JSON.stringify({ obj: user }),
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+           success: function (data) {
+
+               $(".modal-body").LoadingOverlay("hide") //Ocultamos el overlay
+              // https://gasparesganga.com/labs/jquery-loading-overlay/
+                //debugger;
+                //Usuario Nuevo
+               if (user.IdUsuario == 0) {
+                   if (data.resultado != 0) {
+                        user.IdUsuario = data.resultado;
+                        tblData.row.add(user).draw(false);
+                        $('#AddUserModal').modal('hide');
+                    } else {
+                       //alert(data.mensaje);
+                       $("#mensajeError").text(data.mensaje);
+                       $("#mensajeError").show();
+                    }
+
+               } else {
+                   //EDITAR USUARIO
+                   if (data.resultado) {
+                       tblData.row(selectedRow).data(user).draw(false);
+                       selectedRow = null;
+                       $('#AddUserModal').modal('hide');
+                   } else {
+                       //alert(data.mensaje);
+                       $("#mensajeError").text(data.mensaje);
+                       $("#mensajeError").show();
+                   }
+                    tblData.row(selectedRow).data(user).draw(false);
+                }
+            },
+            error: function (error) {
+                // console.log(error);
+                $(".modal-body").LoadingOverlay("hide") //Ocultamos el overlay
+                $("#mensajeError").text("Error Ajax");
+                $("#mensajeError").show();
+            },
+            beforeSend: function () {
+                $(".modal-body").LoadingOverlay("show", {
+                    imageResizeFactor: 2,
+                    text: "Guardando...",
+                    size: 14
+                });
+            }
+        })
+
+        $('#AddUserModal').modal('hide');
+    }
 
     </script>
 }

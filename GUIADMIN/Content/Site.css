@@ -12865,3 +12865,12 @@ body {
     font-size: 0.75rem;
     border-radius: 0.375rem !important;
 }
+
+.swal-overlay {
+    z-index: 9999 !important; /* Asegúrate de que esté por encima de otros elementos */
+}
+
+.swal-modal {
+    z-index: 10000 !important; /* Asegúrate de que el modal esté por encima de la overlay */
+}
+
