@@ -79,7 +79,6 @@ namespace BOL
                 return false;
             }
         }
-
         public bool Eliminar(int id, out string Mensaje)
         {
             return objDatos.Eliminar(id, out Mensaje);
