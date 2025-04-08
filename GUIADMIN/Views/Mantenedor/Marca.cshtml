@@ -4,5 +4,261 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Marca</h2>
 
+<ol class="breadcrumb mb-4 mt-4">
+    <li class="breadcrumb-item"><a href="#">Mantenimiento</a></li>
+    <li class="breadcrumb-item active">Marcas</li>
+</ol>
+
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-users"></i> Lista de Marcas
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12">
+                <button type="button" class="btn btn-success" onclick="openModal()">Crear Nuevo</button>
+            </div>
+        </div>
+        <h5 class="card-title"></h5>
+        <p class="card-text"></p>
+
+        <hr />
+
+        <table id="tblBrands" class="display cell-border" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Descripcion</th>
+                    <th>Activo</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Start modal data-bs-backdrop="static" evita que se cierre al hacer click en otro lugar fuera del modal-->
+
+    <div class="modal fade" id="AddBrandModal" tabindex="-1" aria-labelledby="addBrandModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-dark text-white">
+                    <h5 class="modal-title" id="exampleModalLabel">Marca</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input id="txtId" type="text" value="0" />
+                    <div class="row g-1">
+                        <div class="col-sm-6">
+                            <label for="txtDescripcion" class="form-label">Descripciòn</label>
+                            <input type="text" class="form-control" id="txtDescripcion" placeholder="Escriba la descripcion" autocomplete="off">
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="cboActivo" class="form-label">Activo</label>
+                            <select id="cboActivo" class="form-select">
+                                <option value="1">Si</option>
+                                <option value="0">No</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row mt-2">
+                        <div class="col-12">
+                            <div id="mensajeError" class="alert alert-danger" role="alert">
+                                A simple danger alert—check it out!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" onclick="Guardar()">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End modal -->
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.8/dist/sweetalert2.min.js"></script>
+
+@section scripts {
+    <script>
+        var tblData;
+        var selectedRow;
+
+        @*jQuery.ajax({  Mostrar en consola la data cargada
+            url: '@Url.Action("ListarUsuarios", "Home")',
+            type: "GET",
+            dataType: "json",
+            contentType: "aplication/json; charset= utf-8",
+            success: function (data) {
+                /*debugger;*/
+                console.log(data);
+            }
+        ;*@
+
+        tblData = $("#tblBrands").DataTable({
+            responsive: true,
+            ordering: false,
+            "ajax": {
+                url: '@Url.Action("ListarMarcas", "Mantenedor")',
+                type: "GET",
+                dataType: "json"
+            },
+            columns: [
+                { "data": "Descripcion" },
+                {
+                    "data": "Activo", "render": function (valor) {
+                        if (valor) {
+                            return '<span class="badge bg-success">Si</span>'
+                        } else {
+                            return '<span class="badge bg-danger">No</span>'
+                        }
+                    }
+                },
+                {
+                    "defaultContent": '<button type="button" class="btn btn-primary btn-sm btn-editar"><i class="fas fa-pen"></i></button>' +
+                                      '<button type="button" class="btn btn-danger btn-sm ms-2 btn-eliminar"><i class="fas fa-trash"></i></button>',
+                    "orderable": false,
+                    "searchable": false,
+                    "width": "90px"
+                }
+            ],
+            "language": {
+                "url": "https://cdn.datatables.net/plug-ins/2.2.2/i18n/es-ES.json"
+            }
+        });
+
+        function openModal(json) {
+
+        $("#txtId").val(0);
+        $("#txtDescripcion").val("");
+        $("#cboActivo").val( 1 );
+        $("#mensajeError").hide();
+
+        if (json != null) {
+            $("#txtId").val(json.IdMarca);
+            $("#txtDescripcion").val(json.Descripcion);
+            $("#cboActivo").val(json.cboActivo == true? 1 : 0 );
+        }
+
+        $('#AddBrandModal').modal('show');
+    }
+
+    //function openModal()  tambein funciona
+    //    var modal = new bootstrap.Modal(document.getElementById('AddUserModal'));
+    //    modal.show();
+    //}
+
+        $("#tblBrands tbody").on("click", '.btn-editar', function () {
+        selectedRow = $(this).closest("tr");
+        var data = tblData.row(selectedRow).data();
+
+        openModal(data);
+     });
+
+        $("#tblBrands tbody").on("click", '.btn-eliminar', function () {
+            selectedBrand = $(this).closest("tr");
+            var data = tblData.row(selectedBrand).data();
+            console.log(data);
+
+        Swal.fire({
+            title: "ELIMINAR",
+            text: "¿Está seguro de eliminar?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Sí, eliminar!",
+            focusConfirm: false
+        }).then((result) => {
+            if (result.isConfirmed) {
+                jQuery.ajax({
+                    url: '@Url.Action("EliminarMarca", "Mantenedor")',
+                    type: "POST",
+                    data: JSON.stringify({ id: data.IdMarca }),
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        if (data.resultado) {
+                            tblData.row(selectedBrand).remove().draw();
+                        } else {
+                            Swal.fire("No se pudo eliminar", data.mensaje, "error");
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+            }
+        });
+            $("#sidebar").attr("aria-hidden", "true");
+    });
+
+
+    function Guardar() {
+        var brand = {
+            IdMarca: $('#txId').val(),
+            Descripcion: $("#txtDescripcion").val(),
+            Activo: $('#cboActivo').val() == 1 ? true : false
+        }
+
+       jQuery.ajax({ /* Mostrar en consola la funcoin guardar*/
+            url: '@Url.Action("GuardarMarca", "Mantenedor")',
+            type: "POST",
+            data: JSON.stringify({ obj: brand }),
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+           success: function (data) {
+
+               $(".modal-body").LoadingOverlay("hide") //Ocultamos el overlay
+              // https://gasparesganga.com/labs/jquery-loading-overlay/
+                //debugger;
+                //Categoria Nuevo
+               if (brand.Idmarca == 0) {
+                   if (data.resultado != 0) {
+                       brand.Idmarca = data.resultado;
+                        tblData.row.add(brand).draw(false);
+                       $('#AddBrandModal').modal('hide');
+                    } else {
+                       //alert(data.mensaje);
+                       $("#mensajeError").text(data.mensaje);
+                       $("#mensajeError").show();
+                    }
+
+               } else {
+                   //EDITAR USUARIO
+                   if (data.resultado) {
+                       tblData.row(selectedRow).data(brand).draw(false);
+                       selectedRow = null;
+                       $('#AddBrandModal').modal('hide');
+                   } else {
+                       //alert(data.mensaje);
+                       $("#mensajeError").text(data.mensaje);
+                       $("#mensajeError").show();
+                   }
+                    tblData.row(selectedRow).data(brand).draw(false);
+                }
+            },
+            error: function (error) {
+                // console.log(error);
+                $(".modal-body").LoadingOverlay("hide") //Ocultamos el overlay
+                $("#mensajeError").text("Error Ajax");
+                $("#mensajeError").show();
+            },
+            beforeSend: function () {
+                $(".modal-body").LoadingOverlay("show", {
+                    imageResizeFactor: 2,
+                    text: "Guardando...",
+                    size: 14
+                });
+            }
+        })
+
+        $('#AddBrandModal').modal('hide');
+    }
+
+    </script>
+}

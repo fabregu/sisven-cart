@@ -9,7 +9,7 @@ using System.Web.Mvc;
 namespace GUIADMIN.Controllers
 {
     public class MantenedorController : Controller
-    {
+    {       
         // GET: Mantenedor
         public ActionResult Categoria()
         {
@@ -22,6 +22,7 @@ namespace GUIADMIN.Controllers
             return View();
         }
 
+        #region Categoria
         [HttpGet]
         public JsonResult ListarCategorias()
         {
@@ -55,5 +56,42 @@ namespace GUIADMIN.Controllers
 
             return Json(new { resultado = respuesta, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
         }
+        #endregion
+
+        #region Marca
+        [HttpGet]
+        public JsonResult ListarMarcas()
+        {
+            List<Marca> oLista = new List<Marca>();
+            oLista = new BOL_Marcas().Listar();
+            return Json(new { data = oLista }, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GuardarMarca(Marca obj)
+        {
+            object resultado;
+            string mensaje = string.Empty;
+
+            if (obj.IdMarca == 0)
+            {
+                resultado = new BOL_Marcas().RegistrarMarca(obj, out mensaje);
+            }
+            else
+            {
+                resultado = new BOL_Marcas().EditarMarca(obj, out mensaje);
+            }
+
+            return Json(new { resultado = resultado, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult EliminarMarca(int id)
+        {
+            bool respuesta = false;
+            string mensaje = string.Empty;
+            respuesta = new BOL_Marcas().Eliminar(id, out mensaje);
+
+            return Json(new { resultado = respuesta, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
     }
 }

@@ -50,7 +50,7 @@ GO
 
 -- CATEGORIAS
 
-CREATE PROC [dbo].[sp_RegistrarCategoria](
+CREATE PROC sp_RegistrarCategoria](
 	@Descripcion VARCHAR(100),
 	@Activo BIT,
 	@Mensaje VARCHAR(500) OUTPUT,
@@ -111,6 +111,68 @@ BEGIN
 END
 GO
 
+-- MARCAS
+
+CREATE PROC sp_RegistrarMarca(
+	@Descripcion VARCHAR(100),
+	@Activo BIT,
+	@Mensaje VARCHAR(500) OUTPUT,
+	@Resultado INT OUTPUT
+)
+AS
+BEGIN
+	SET @Resultado = 0
+	IF NOT EXISTS(SELECT * FROM Marca WHERE Descripcion = @Descripcion)
+	BEGIN
+		INSERT INTO Marca(Descripcion, Activo) VALUES
+		(@Descripcion, @Activo)
+		SET @Resultado = SCOPE_IDENTITY()
+	END
+	ELSE
+		SET @Mensaje = 'La marca ya existe'
+END
+
+GO
+
+CREATE PROC sp_EditarMarca(
+	@IdMarca INT,
+	@Descripcion VARCHAR(100),
+	@Activo BIT,
+	@Mensaje VARCHAR(500) OUTPUT,
+	@Resultado BIT OUTPUT
+)
+AS
+BEGIN
+	SET @Resultado = 0
+	IF NOT EXISTS(SELECT * FROM Marca WHERE Descripcion = @Descripcion AND IdMarca != @IdMarca )
+	BEGIN
+		UPDATE TOP(1)Marca SET
+		Descripcion = @Descripcion,
+		Activo= @Activo
+		SET @Resultado = 1
+	END
+	ELSE
+		SET @Mensaje = 'La marca ya existe'
+END
+GO
+
+CREATE PROC sp_EliminarMarca(
+	@IdMarca INT,
+	@Mensaje VARCHAR(500) OUTPUT,
+	@Resultado BIT OUTPUT
+)
+AS
+BEGIN
+	SET @Resultado = 0
+	IF NOT EXISTS(SELECT * FROM Producto p INNER JOIN Marca c ON c.IdMarca = p.IdCategoria WHERE p.IdMarca = @IdMarca)
+	BEGIN
+		DELETE TOP(1) FROM Marca WHERE IdMarca = @IdMarca
+		SET @Resultado = 1
+	END
+	ELSE
+		SET @Mensaje = 'La marca se encuentra relacionada a un producto'
+END
+GO
 
 
 

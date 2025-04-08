@@ -21,6 +21,7 @@ namespace GUIADMIN
                         "~/Scripts/DataTables/jquery.dataTables.js",
                         "~/Scripts/DataTables/dataTables.responsive.js",
                         "~/Scripts/loadingoverlay/loadingoverlay.min.js",
+                         "~/Scripts/sweetalert2.all.min.js",
                         "~/Scripts/sweetalert.min.js",
 
                         "~/Scripts/scripts.js"));

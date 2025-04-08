@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BOL_Categorias.cs" />
+    <Compile Include="BOL_Marcas.cs" />
     <Compile Include="BOL_Recursos.cs" />
     <Compile Include="BOL_Usuarios.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

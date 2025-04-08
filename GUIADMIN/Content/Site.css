@@ -92,6 +92,7 @@
 }
 
 body {
+    position: relative;
     margin: 0;
     font-family: var(--bs-body-font-family);
     font-size: var(--bs-body-font-size);
@@ -12870,7 +12871,7 @@ body {
     z-index: 9999 !important; /* Asegúrate de que esté por encima de otros elementos */
 }
 
-.swal-modal {
-    z-index: 10000 !important; /* Asegúrate de que el modal esté por encima de la overlay */
+.swal2-container {
+    z-index: 1050 !important; /* Asegúrate de que el modal esté por encima del modal de Bootstrap 5 */
 }
 
