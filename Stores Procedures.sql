@@ -174,6 +174,94 @@ BEGIN
 END
 GO
 
+-- PRODUCTOS
+CREATE PROC sp_RegistrarProducto(
+	@Nombre VARCHAR(100),
+	@Descripcion VARCHAR(100),
+	@IdMarca VARCHAR(100),
+	@IdCategoria VARCHAR(100),
+	@Precio DECIMAL(10,2),
+	@Stock INT,
+	@Activo BIT,
+	@Mensaje VARCHAR(500) OUTPUT,
+	@Resultado INT OUTPUT
+)
+AS
+BEGIN
+	SET @Resultado = 0
+	IF NOT EXISTS(SELECT * FROM Producto WHERE Nombre = @Nombre)
+	BEGIN
+		INSERT INTO Producto(Nombre, Descripcion, IdMarca, IdCategoria, Precio, Stock, Activo) VALUES
+		(@Nombre, @Descripcion, @IdMarca, @IdCategoria, @Precio, @Stock, @Activo)
+		SET @Resultado = SCOPE_IDENTITY()
+	END
+	ELSE
+		SET @Mensaje = 'El producto ya existe'
+END
+GO
+
+CREATE PROC sp_EditarProducto(
+	@IdProducto INT,
+	@Nombre VARCHAR(100),
+	@Descripcion VARCHAR(100),
+	@IdMarca VARCHAR(100),
+	@IdCategoria VARCHAR(100),
+	@Precio DECIMAL(10,2),
+	@Stock INT,
+	@Activo BIT,
+	@Mensaje VARCHAR(500) OUTPUT,
+	@Resultado INT OUTPUT
+)
+AS
+BEGIN
+	SET @Resultado = 0
+	IF NOT EXISTS(SELECT * FROM Producto WHERE Nombre = @Nombre AND IdProducto != @IdProducto)
+	BEGIN
+		UPDATE TOP(1)Producto SET
+		Nombre = @Nombre,
+		Descripcion = @Descripcion,
+		IdMarca = @IdMarca,
+		IdCategoria = @IdCategoria,
+		Precio = @Precio,
+		Stock = @Stock,
+		Activo= @Activo
+		SET @Resultado = 1
+	END
+	ELSE
+		SET @Mensaje = 'El producto ya existe'
+END
+GO
+
+CREATE PROC sp_EliminarProducto(
+	@IdProducto INT,
+	@Mensaje VARCHAR(500) OUTPUT,
+	@Resultado BIT OUTPUT
+)
+AS
+BEGIN
+	SET @Resultado = 0
+	IF NOT EXISTS(SELECT * FROM DetalleVenta dv INNER JOIN Producto p ON p.IdProducto = dv.IdProducto WHERE p.IdProducto = @IdProducto)
+	BEGIN
+		DELETE TOP(1) FROM Producto WHERE IdProducto = @IdProducto
+		SET @Resultado = 1
+	END
+	ELSE
+		SET @Mensaje = 'El producto se encuentra relacionada a una venta'
+END
+GO
+
+CREATE PROC sp_RutaImagenes(
+    @IdProducto INT,
+    @RutaImagen VARCHAR(100),
+    @NombreImagen VARCHAR(100) 
+)
+AS
+    BEGIN
+   IF NOT EXISTS(SELECT * FROM PRODUCTO WHERE idProducto != @IdProducto)
+    UPDATE PRODUCTO SET RutaImagen = @RutaImagen, NombreImagen =@NombreImagen WHERE idProducto =@idProducto
+    END
+GO
+
 
 
 

@@ -217,9 +217,9 @@
               // https://gasparesganga.com/labs/jquery-loading-overlay/
                 //debugger;
                 //Categoria Nuevo
-               if (brand.Idmarca == 0) {
+               if (brand.IdMarca == 0) {
                    if (data.resultado != 0) {
-                       brand.Idmarca = data.resultado;
+                       brand.IdMarca = data.resultado;
                         tblData.row.add(brand).draw(false);
                        $('#AddBrandModal').modal('hide');
                     } else {

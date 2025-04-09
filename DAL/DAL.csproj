@@ -45,6 +45,7 @@
     <Compile Include="Conexion.cs" />
     <Compile Include="DAL_Categorias.cs" />
     <Compile Include="DAL_Marcas.cs" />
+    <Compile Include="DAL_Productos.cs" />
     <Compile Include="DAL_Usuarios.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
