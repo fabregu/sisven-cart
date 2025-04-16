@@ -176,7 +176,7 @@ GO
 
 -- PRODUCTOS
 CREATE PROC sp_RegistrarProducto(
-	@Nombre VARCHAR(100),
+	@Nombre VARCHAR(500),
 	@Descripcion VARCHAR(100),
 	@IdMarca VARCHAR(100),
 	@IdCategoria VARCHAR(100),
@@ -202,7 +202,7 @@ GO
 
 CREATE PROC sp_EditarProducto(
 	@IdProducto INT,
-	@Nombre VARCHAR(100),
+	@Nombre VARCHAR(500),
 	@Descripcion VARCHAR(100),
 	@IdMarca VARCHAR(100),
 	@IdCategoria VARCHAR(100),
@@ -257,8 +257,8 @@ CREATE PROC sp_RutaImagenes(
 )
 AS
     BEGIN
-   IF NOT EXISTS(SELECT * FROM PRODUCTO WHERE idProducto != @IdProducto)
-    UPDATE PRODUCTO SET RutaImagen = @RutaImagen, NombreImagen =@NombreImagen WHERE idProducto =@idProducto
+   
+    UPDATE PRODUCTO SET RutaImagen = @RutaImagen, NombreImagen =@NombreImagen WHERE IdProducto =@IdProducto
     END
 GO
 

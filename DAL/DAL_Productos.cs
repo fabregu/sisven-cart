@@ -20,12 +20,12 @@ namespace DAL
                 {
                    // string sql = "select * from Producto";
                    StringBuilder sb = new StringBuilder();
-                    sb.AppendLine("select p.IdProducto, p.Descripcion, p.Activo,");
-                    sb.AppendLine("m.IdProducto, m.Descripcion[Producto],");
+                    sb.AppendLine("select p.IdProducto, p.Nombre, p.Descripcion, p.Activo,");
+                    sb.AppendLine("m.IdMarca, m.Descripcion[Marca],");
                     sb.AppendLine("c.IdCategoria, c.Descripcion[Categoria],");
                     sb.AppendLine("p.Precio, p.Stock,p.RutaImagen, p.NombreImagen, p.Activo");
                     sb.AppendLine("from Producto p");
-                    sb.AppendLine("inner join Producto m on p.IdProducto = m.IdProducto");
+                    sb.AppendLine("inner join Marca m on p.IdMarca = m.IdMarca");
                     sb.AppendLine("inner join Categoria c on p.IdCategoria = c.IdCategoria");
                     SqlCommand cmd = new SqlCommand(sb.ToString(), oconexion);
                     cmd.CommandType = CommandType.Text;
@@ -143,11 +143,12 @@ namespace DAL
             {
                 using (SqlConnection oconexion = new SqlConnection(Conexion.cnn))
                 {
-                    string query = "update producto set RutaImagen = @rutaimagen, NombreImagen = @nombreimagen where IdProducto = @IdProducto";
-                    SqlCommand cmd = new SqlCommand(query, oconexion);
-                    cmd.Parameters.AddWithValue("@rutaimagen", oProducto.RutaImagen);
-                    cmd.Parameters.AddWithValue("@nombreimagen", oProducto.NombreImagen);
-                    cmd.CommandType = CommandType.Text;
+                    //string query = "update producto set RutaImagen = @Rutaimagen, NombreImagen = @Nombreimagen where IdProducto = @IdProducto";
+                    SqlCommand cmd = new SqlCommand("sp_RutaImagenes", oconexion);
+                    cmd.Parameters.AddWithValue("@Rutaimagen", oProducto.RutaImagen);
+                    cmd.Parameters.AddWithValue("@Nombreimagen", oProducto.NombreImagen);
+                    cmd.Parameters.AddWithValue("@IdProducto", oProducto.IdProducto);
+                    cmd.CommandType = CommandType.StoredProcedure;
                     oconexion.Open();
 
                     if (cmd.ExecuteNonQuery() > 0)

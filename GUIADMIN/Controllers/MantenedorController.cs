@@ -179,6 +179,25 @@ namespace GUIADMIN.Controllers
 
             return Json(new { operacionExitosa = operacion_exitosa, idGenerado = oProducto.IdProducto, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
         }
+
+        public JsonResult ImagenProducto(int id)
+        {
+            bool conversion;
+            Producto oProducto = new BOL_Productos().Listar().Where(p => p.IdProducto == id).FirstOrDefault();
+
+            string textoBase64 = BOL_Recursos.convertirBase64(Path.Combine(oProducto.RutaImagen, oProducto.NombreImagen), out conversion);
+
+            return Json(new { textoBase64 = textoBase64, conversion = conversion, extension = Path.GetExtension(oProducto.NombreImagen) }, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult EliminarProducto(int id)
+        {
+            bool respuesta = false;
+            string mensaje = string.Empty;
+            respuesta = new BOL_Productos().Eliminar(id, out mensaje);
+
+            return Json(new { resultado = respuesta, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
+        }
         #endregion
     }
 }

@@ -23,6 +23,7 @@ namespace GUIADMIN
                         "~/Scripts/loadingoverlay/loadingoverlay.min.js",
                          "~/Scripts/sweetalert2.all.min.js",
                         "~/Scripts/sweetalert.min.js",
+                        "~/Scripts/jquery.validate.js",
 
                         "~/Scripts/scripts.js"));
 
