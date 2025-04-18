@@ -71,7 +71,7 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Descripciòn</label>
-                                <textarea class="form-control" id="txtDescripcion" placeholder="Escriba el nombre" style="height:125px; resize:none" name="descripcion"></textarea>
+                                <textarea class="form-control" id="txtDescripcion" style="height:125px; resize:none" name="descripcion"></textarea>
                             </div>
                         </div>
 
@@ -297,7 +297,32 @@
                 $("#cboCategoria").val(json.oCategoria.IdCategoria);
                 $("#txtPrecio").val(json.Precio);
                 $("#txtStock").val(json.Stock);
-                $("#cboActivo").val(json.cboActivo == true? 1 : 0 );
+                $("#cboActivo").val(json.cboActivo == true ? 1 : 0);
+
+                //debugger;                     
+                jQuery.ajax({
+                    url: '@Url.Action("ImagenProducto", "Mantenedor")',
+                    type: "POST",
+                    data: JSON.stringify({ id: json.IdProducto }),
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        console.log("Datos recibidos:", data);
+                        $("#img_producto").LoadingOverlay("hide");
+
+                        if (data.conversion) {
+                            $("#img_producto").attr({ "src": "data:image/" + data.extension + ";base64," + data.textoBase64 });
+                        }
+                    },
+                    error: function (error) {
+                        $("#img_producto").LoadingOverlay("hide");
+                        $('#mensajeError').show();
+                        $('#mensajeError').text("Error al mostrar imagen");
+                    },
+                    beforeSend: function () {
+                        $("#img_producto").LoadingOverlay("show");
+                    },
+                });
             }
 
             $('#AddProductModal').modal('show');
