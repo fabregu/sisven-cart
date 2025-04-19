@@ -56,5 +56,12 @@ namespace GUIADMIN.Controllers
 
             return Json(new { resultado = respuesta, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpGet]
+        public JsonResult VistaDashboard()
+        {
+            Dashboard resultado = new BOL_Reportes().VerDashboard();
+            return Json(new { dashboard = resultado }, JsonRequestBehavior.AllowGet);
+        }
     }
 }

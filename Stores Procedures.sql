@@ -262,6 +262,13 @@ AS
     END
 GO
 
+CREATE PROC sp_ReporteDashboard
+AS
+BEGIN
 
+SELECT
 
-
+	(SELECT COUNT(*) FROM Cliente) [TotalClientes],
+	(SELECT ISNULL(SUM(cantidad), 0) FROM DetalleVenta) [TotalVentas],
+	(SELECT COUNT(*) FROM Producto) [TotalProductos]
+END

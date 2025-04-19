@@ -31,15 +31,3 @@
 *.db
 .vs/
 Publish/
-.vs/
-
-# Ignorar carpetas bin y obj
-bin/
-obj/
-
-# Ignorar archivos de compilación comunes
-*.dll
-*.pdb
-*.exe
-*.bak
-*.swp
