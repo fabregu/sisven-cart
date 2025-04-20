@@ -61,7 +61,7 @@
         Historial de Ventas
     </div>
     <div class="card-body">
-        <form>
+        <form action="@Url.Action("ExportarVenta", "Home")" method="POST">
             <div class="row align-items-end">
                 <div class="col-sm-2">
                     <div class="mb-2">
@@ -115,6 +115,11 @@
 
 @section scripts {
     <script>
+        var tblData;
+
+        $("#fechaInicio").datepicker({dateFormat: 'dd/mm/yy'}).datepicker('setDate', new Date())
+        $("#fechaFin").datepicker({ dateFormat: 'dd/mm/yy' }).datepicker('setDate', new Date())
+
         jQuery.ajax({
             url: '@Url.Action("VistaDashboard", "Home")',
             type: "GET",
@@ -133,5 +138,42 @@
             beforeSend: function () {
             },
         });
+
+        var Url = '@Url.Action("ListaReporte", "Home")' +
+                  "?fechaInicio=" + $("#fechaInicio").val() +
+                  "&fechaFin=" + $("#fechaFin").val() +
+                  "&idTransaccion=" + $("#idTransaccion").val()
+
+        tblData = $("#tabla").DataTable({
+            responsive: true,
+            ordering: false,
+            "ajax": {
+                url: Url,
+                type: "GET",
+                dataType: "json"
+            },
+            columns: [
+                { "data": "FechaVenta" },
+                { "data": "Producto" },
+                { "data": "Cliente" },
+                { "data": "Precio" },
+                { "data": "Cantidad" },
+                { "data": "Total" },
+                { "data": "IdTransaccion" },
+            ],
+            "language": {
+                "url": "https://cdn.datatables.net/plug-ins/2.2.2/i18n/es-ES.json"
+            }
+        });
+
+        $("#btnBuscar").on("click", function () {
+            var nuevaUrl = '@Url.Action("ListaReporte", "Home")' +
+                "?fechaInicio=" + $("#fechaInicio").val() +
+                "&fechaFin=" + $("#fechaFin").val() +
+                "&idTransaccion=" + $("#idTransaccion").val()   
+
+            tblData.ajax.url(nuevaUrl).load();
+        });
+
     </script>
 }

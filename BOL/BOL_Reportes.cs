@@ -1,15 +1,17 @@
 ﻿using Entity;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DAL;
 
 namespace BOL
 {
     public class BOL_Reportes
     {
-        private DAL.DAL_Reportes dal = new DAL.DAL_Reportes();
+        private DAL_Reportes dal = new DAL_Reportes();
+
+        public List<Reporte> Ventas(string fechaInicio, string fechaFin, string idTransaccion)
+        {
+            return dal.Ventas(fechaInicio, fechaFin, idTransaccion);
+        }
         public Dashboard VerDashboard()
         {
             return dal.VerDashboard();

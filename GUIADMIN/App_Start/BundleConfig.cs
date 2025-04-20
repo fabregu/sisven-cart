@@ -24,13 +24,15 @@ namespace GUIADMIN
                          "~/Scripts/sweetalert2.all.min.js",
                         "~/Scripts/sweetalert.min.js",
                         "~/Scripts/jquery.validate.js",
+                        "~/Scripts/jquery-ui-1.14.1.js",
 
                         "~/Scripts/scripts.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                 "~/Content/site.css",
                 "~/Content/Datatables/css/jquery.dataTables.css",
-                "~/Content/Datatables/css/responsive.dataTables.css"
+                "~/Content/Datatables/css/responsive.dataTables.css",
+                "~/Content/themes/base/jquery-ui.css"
                 ));
         }
     }
